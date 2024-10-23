@@ -21,7 +21,7 @@ public class OffreMobilite {
 
     private int idOffre;
     private int nbrPlaces;
-    private String proposePar;
+    private int proposePar;
     private int semestre;
     private int niveauScolaire;
     private String dispositif;
@@ -39,7 +39,7 @@ public class OffreMobilite {
      * @param nomOffre
      * @param specialiteAssocie
      */
-    public OffreMobilite(int nbrPlaces, String proposePar, int semestre, int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
+    public OffreMobilite(int nbrPlaces, int proposePar, int semestre, int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
         this(-1, nbrPlaces, proposePar, semestre, niveauScolaire, dispositif, nomOffre, specialiteAssocie);
     }
 
@@ -54,7 +54,7 @@ public class OffreMobilite {
      * @param nomOffre
      * @param specialiteAssocie
      */
-    public OffreMobilite(int id, int nbrPlaces, String proposePar, int semestre, int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
+    public OffreMobilite(int id, int nbrPlaces, int proposePar, int semestre, int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
         this.idOffre = id;
         this.nbrPlaces = nbrPlaces;
         this.proposePar = proposePar;
@@ -98,7 +98,7 @@ public class OffreMobilite {
                 "INSERT INTO offremobilite (nbrplaces, proposepar, semestre, niveauScolaire, dispositif, nomOffre, specialiteAssocie) VALUES (?,?,?,?,?,?,?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             insert.setInt(1, this.nbrPlaces);
-            insert.setString(2, this.proposePar);
+            insert.setInt(2, this.proposePar);
             insert.setInt(3, this.semestre);
             insert.setInt(4, this.niveauScolaire);
             insert.setString(5, this.dispositif);
@@ -133,7 +133,7 @@ public class OffreMobilite {
                 res.add(new OffreMobilite(
                         rs.getInt("id"), 
                         rs.getInt("nbrplaces"), 
-                        rs.getString("proposepar"), 
+                        rs.getInt("proposepar"), 
                         rs.getInt("semestre"), 
                         rs.getInt("niveauScolaire"), 
                         rs.getString("dispositif"), 
@@ -154,7 +154,7 @@ public class OffreMobilite {
      */
     public static int creeConsole(Connection con) throws SQLException {
         int nbr = ConsoleFdB.entreeInt("Nombre de places : ");
-        String par = ConsoleFdB.entreeString("Proposé par : ");
+        int par = ConsoleFdB.entreeInt("Proposé par : ");
         int s = ConsoleFdB.entreeInt("Semestre proposé : ");
         int niv = ConsoleFdB.entreeInt("Niveau scolaire : ");
         String dispositif = ConsoleFdB.entreeString("Type de dispositif : ");
