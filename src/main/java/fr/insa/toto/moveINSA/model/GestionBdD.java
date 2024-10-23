@@ -130,18 +130,18 @@ public class GestionBdD {
      */
     public static void deleteSchema(Connection con) throws SQLException {
         try (Statement st = con.createStatement()) {
-            // je supprime d'abord les liens
+            
             try {
                 st.executeUpdate(
                         "alter table offremobilite drop constraint fk_offremobilite_proposepar");
             } catch (SQLException ex) {
-                // nothing to do : maybe the constraint was not created
+                
             }
-            // je peux maintenant supprimer les tables
+          
             try {
                 st.executeUpdate("drop table offremobilite");
             } catch (SQLException ex) {
-                // nothing to do : maybe the table was not created
+                
             }
             try {
                 st.executeUpdate("drop table partenaire");
@@ -399,6 +399,7 @@ public class GestionBdD {
             System.out.println((i++) + ") menu etudiant");
             System.out.println((i++) + ") menu classe");
             System.out.println((i++) + ") menu specialite");
+            System.out.println((i++) + ") menu departement");
             System.out.println("0) Fin");
             rep = ConsoleFdB.entreeEntier("Votre choix : ");
             try {
