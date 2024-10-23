@@ -76,27 +76,27 @@ public class GestionBdD {
                     "create table etudiant ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idEtudiant") + ",\n"
                     + " idEtudiant int not null unique,\n"
-                    + " nomEtudiant varchar(50) not null\n"
-                    + " prenom varchar(50) not null\n"
-                    + " classe varchar(50) not null\n"
-                    + " annee int not null\n"
-                    + " classement not null\n"
-                    + " INE int not null\n"
+                    + " nomEtudiant varchar(50) not null,\n"
+                    + " prenom varchar(50) not null,\n"
+                    + " classe varchar(50) not null,\n"
+                    + " annee int not null,\n"
+                    + " classement not null,\n"
+                    + " INE int not null,\n"
                     + " mdp varchar(50) not null\n"
                     + ")");
             st.executeUpdate(
                     "create table classe ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idClase") + ",\n"
                     + " idClasse int not null unique,\n"
-                    + " nom varchar(50) not null\n"
-                    + " effectif int not null,\n"
+                    + " nom varchar(50) not null,\n"
+                    + " effectif int not null\n"
                     + ")");
             st.executeUpdate(
                     "create table specialite ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idSpecialite") + ",\n"
                     + " idSpecialite int not null unique,\n"
-                    + " nomSpecialite varchar(50) not null\n"
-                    + " effectifSpecialite int not null,\n"
+                    + " nomSpecialite varchar(50) not null,\n"
+                    + " effectifSpecialite int not null\n"
                     + ")");
              st.executeUpdate(
                     "create table departement ( \n"
