@@ -1,25 +1,6 @@
-/*
-Copyright 2000- Francois de Bertrand de Beuvron
-
-This file is part of CoursBeuvron.
-
-CoursBeuvron is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-CoursBeuvron is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with CoursBeuvron.  If not, see <http://www.gnu.org/licenses/>.
- */
 package fr.insa.toto.moveINSA.model;
 
 import fr.insa.beuvron.utils.ConsoleFdB;
-import fr.insa.toto.moveINSA.model.Partenaire;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,8 +29,8 @@ public class OffreMobilite {
     private String specialiteAssocie;
 
     /**
-     * création d'une nouvelle Offre en mémoire, non existant dans la Base de
-     * donnée.
+     * Création d'une nouvelle Offre en mémoire, non existante dans la base de
+     * données.
      * @param nbrPlaces
      * @param proposePar
      * @param semestre
@@ -58,12 +39,12 @@ public class OffreMobilite {
      * @param nomOffre
      * @param specialiteAssocie
      */
-    public OffreMobilite(int nbrPlaces, String proposePar, int semestre,int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
+    public OffreMobilite(int nbrPlaces, String proposePar, int semestre, int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
         this(-1, nbrPlaces, proposePar, semestre, niveauScolaire, dispositif, nomOffre, specialiteAssocie);
-}
+    }
 
     /**
-     * création d'une Offre retrouvée dans la base de donnée.
+     * Création d'une Offre retrouvée dans la base de données.
      * @param id
      * @param nbrPlaces
      * @param proposePar
@@ -73,7 +54,7 @@ public class OffreMobilite {
      * @param nomOffre
      * @param specialiteAssocie
      */
-    public OffreMobilite(int id, int nbrPlaces, String proposePar, int semestre,int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
+    public OffreMobilite(int id, int nbrPlaces, String proposePar, int semestre, int niveauScolaire, String dispositif, String nomOffre, String specialiteAssocie) {
         this.idOffre = id;
         this.nbrPlaces = nbrPlaces;
         this.proposePar = proposePar;
@@ -87,27 +68,26 @@ public class OffreMobilite {
     @Override
     public String toString() {
         return "OffreMobilite{" +
-           "id=" + this.getId() +
-           ", nbrPlaces=" + nbrPlaces +
-           ", proposePar=" + proposePar +
-           ", semestre=" + semestre +
-           ", niveauScolaire=" + niveauScolaire +
-           ", dispositif='" + dispositif + '\'' +
-           ", nomOffre='" + nomOffre + '\'' +
-           ", specialiteAssocie='" + specialiteAssocie + '\'' +
-           '}';
+                "id=" + this.getId() +
+                ", nbrPlaces=" + nbrPlaces +
+                ", proposePar=" + proposePar +
+                ", semestre=" + semestre +
+                ", niveauScolaire=" + niveauScolaire +
+                ", dispositif='" + dispositif + '\'' +
+                ", nomOffre='" + nomOffre + '\'' +
+                ", specialiteAssocie='" + specialiteAssocie + '\'' +
+                '}';
     }
 
     /**
-     * Sauvegarde une nouvelle entité et retourne la clé affecté automatiquement
+     * Sauvegarde une nouvelle entité et retourne la clé affectée automatiquement
      * par le SGBD.
      * <p>
-     * la clé est également sauvegardée dans l'attribut id
+     * La clé est également sauvegardée dans l'attribut id.
      * </p>
      *
      * @param con
      * @return la clé de la nouvelle entité dans la table de la BdD
-     * @throws EntiteDejaSauvegardee si l'id de l'entité est différent de -1
      * @throws SQLException si autre problème avec la BdD
      */
     public int saveInDB(Connection con) throws SQLException {
@@ -115,7 +95,7 @@ public class OffreMobilite {
             throw new fr.insa.toto.moveINSA.model.EntiteDejaSauvegardee();
         }
         try (PreparedStatement insert = con.prepareStatement(
-                "insert into offremobilite (nbrplaces,proposepar,semestre, niveauScolaire, dispositif, nomOffre, specialiteAssocie) values (?,?,?,?,?,?,?)",
+                "INSERT INTO offremobilite (nbrplaces, proposepar, semestre, niveauScolaire, dispositif, nomOffre, specialiteAssocie) VALUES (?,?,?,?,?,?,?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             insert.setInt(1, this.nbrPlaces);
             insert.setString(2, this.proposePar);
@@ -125,36 +105,63 @@ public class OffreMobilite {
             insert.setString(6, this.nomOffre);
             insert.setString(7, this.specialiteAssocie);
             insert.executeUpdate();
+            
             try (ResultSet rid = insert.getGeneratedKeys()) {
-                rid.next();
-                this.idOffre = rid.getInt(1);
-                return this.getId();
+                if (rid.next()) {
+                    this.idOffre = rid.getInt(1);
+                    return this.getId();
+                } else {
+                    throw new SQLException("Échec de la création de l'offre, aucune clé générée.");
+                }
             }
         }
     }
 
+    /**
+     * Récupère toutes les offres de mobilité de la base de données.
+     *
+     * @param con la connexion à la base de données
+     * @return une liste de toutes les offres de mobilité
+     * @throws SQLException si un problème survient lors de la récupération
+     */
     public static List<OffreMobilite> toutesLesOffres(Connection con) throws SQLException {
         try (PreparedStatement pst = con.prepareStatement(
-                "select id,nbrplaces,proposepar,semestre, niveauScolaire, refpartenaire, nomOffre, specialiteAssocie from offremobilite")) {
+                "SELECT id, nbrplaces, proposepar, semestre, niveauScolaire, dispositif, nomOffre, specialiteAssocie FROM offremobilite")) {
             ResultSet rs = pst.executeQuery();
             List<OffreMobilite> res = new ArrayList<>();
             while (rs.next()) {
-                res.add(new OffreMobilite(rs.getInt(1), rs.getString(2), rs.getInt(3),  rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+                res.add(new OffreMobilite(
+                        rs.getInt("id"), 
+                        rs.getInt("nbrplaces"), 
+                        rs.getString("proposepar"), 
+                        rs.getInt("semestre"), 
+                        rs.getInt("niveauScolaire"), 
+                        rs.getString("dispositif"), 
+                        rs.getString("nomOffre"), 
+                        rs.getString("specialiteAssocie")
+                ));
             }
             return res;
         }
     }
 
+    /**
+     * Crée une offre de mobilité en demandant les informations via la console.
+     *
+     * @param con la connexion à la base de données
+     * @return l'ID de l'offre créée
+     * @throws SQLException si un problème survient lors de l'enregistrement
+     */
     public static int creeConsole(Connection con) throws SQLException {
-        Partenaire p = Partenaire.selectInConsole(con);
-        int nbr = ConsoleFdB.entreeInt("nombre de places : ");
-        String par = ConsoleFdB.entreeString("proposé par: ");
-        int s = ConsoleFdB.entreeInt("semestre proposé : ");
-        int niv = ConsoleFdB.entreeInt("niveau scolaire : ");
-        String dispositif = ConsoleFdB.entreeString("type de dispositif : ");
-        String nom = ConsoleFdB.entreeString("nom de l'offre : ");
-        String spe = ConsoleFdB.entreeString("pour quel specialité : ");
-        OffreMobilite nouveau = new OffreMobilite(p.getId(), nbr, par , s, niv, dispositif, nom, spe);
+        int nbr = ConsoleFdB.entreeInt("Nombre de places : ");
+        String par = ConsoleFdB.entreeString("Proposé par : ");
+        int s = ConsoleFdB.entreeInt("Semestre proposé : ");
+        int niv = ConsoleFdB.entreeInt("Niveau scolaire : ");
+        String dispositif = ConsoleFdB.entreeString("Type de dispositif : ");
+        String nom = ConsoleFdB.entreeString("Nom de l'offre : ");
+        String spe = ConsoleFdB.entreeString("Pour quelle spécialité : ");
+        
+        OffreMobilite nouveau = new OffreMobilite(nbr, par, s, niv, dispositif, nom, spe);
         return nouveau.saveInDB(con);
     }
 
