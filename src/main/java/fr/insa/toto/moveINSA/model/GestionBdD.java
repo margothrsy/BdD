@@ -152,6 +152,10 @@ public class GestionBdD {
                 st.executeUpdate("drop table specialite");
             } catch (SQLException ex) {
             }
+              try {
+                st.executeUpdate("drop table departement");
+            } catch (SQLException ex) {
+            }
         }
     }
 
@@ -299,6 +303,30 @@ public class GestionBdD {
                 int j = 1;
                 if (rep == j++) {
                     List<Specialite> users = Specialite.toutesLesSpecialites(con);
+                    System.out.println(users.size() + " utilisateurs : ");
+                    System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
+                } else if (rep == j++) {
+                    Classe.creeConsole(con);
+                }
+            } catch (Exception ex) {
+                System.out.println(ExceptionsUtils.messageEtPremiersAppelsDansPackage(ex, "fr.insa", 3));
+            }
+        }
+    }
+    public static void menuDepartement(Connection con) {
+        int rep = -1;
+        while (rep != 0) {
+            int i = 1;
+            System.out.println("Menu departement");
+            System.out.println("==================");
+            System.out.println((i++) + ") liste de tous les departements");
+            System.out.println((i++) + ") créer un nouveau departement");
+            System.out.println("0) Retour");
+            rep = ConsoleFdB.entreeEntier("Votre choix : ");
+            try {
+                int j = 1;
+                if (rep == j++) {
+                    List<Departement> users = Departement.tousLesDepartements(con);
                     System.out.println(users.size() + " utilisateurs : ");
                     System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
                 } else if (rep == j++) {
