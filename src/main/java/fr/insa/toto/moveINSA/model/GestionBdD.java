@@ -158,13 +158,13 @@ public class GestionBdD {
             }
         }
     }
-
+/*
     /**
      * crée un jeu de test dans la BdD.
      *
      * @param con
      * @throws SQLException
-     */
+     
     public static void initBdDTest(Connection con) throws SQLException {
         List<Partenaire> partenaires = List.of(
                 new Partenaire("MIT"),
@@ -189,7 +189,7 @@ public class GestionBdD {
         creeSchema(con);
         initBdDTest(con);
     }
-
+*/
     public static void menuPartenaire(Connection con) {
         int rep = -1;
         while (rep != 0) {
