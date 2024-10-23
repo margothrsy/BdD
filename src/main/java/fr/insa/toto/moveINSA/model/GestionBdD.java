@@ -58,12 +58,19 @@ public class GestionBdD {
                     "create table partenaire ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "id") + ",\n"
                     + " refPartenaire varchar(50) not null unique\n"
+                    + " ville varchar(50) not null unique\n"
+                    + " pays varchar(50) not null unique\n"
                     + ")");
             st.executeUpdate(
                     "create table offremobilite ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "id") + ",\n"
                     + " nbrplaces int not null,\n"
-                    + " proposepar int not null\n"
+                    + " proposePar int not null\n"
+                    + " semestre int not null\n"
+                    + " niveauScolaire int not null\n"
+                    + " dispositif varchar(2) not null unique\n"
+                    + " nomOffre varchar(100) not null unique\n"
+                    + " specialiteAssocie varchar(50) not null unique\n"
                     + ")");
             st.executeUpdate(
                     "create table etudiant ( \n"
