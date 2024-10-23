@@ -167,16 +167,16 @@ public class GestionBdD {
      **/
     public static void initBdDTest(Connection con) throws SQLException {
         List<Partenaire> partenaires = List.of(
-                new Partenaire("MIT"),
-                new Partenaire("Oxford")
+                new Partenaire("MIT", "Cambridge"," USA"),
+                new Partenaire("Oxford","Oxford","UK")
         );
         for (var p : partenaires) {
             p.saveInDB(con);
         }
         List<OffreMobilite> offres = List.of(
-                new OffreMobilite(1, partenaires.get(0).getId()),
-                new OffreMobilite(2, partenaires.get(0).getId()),
-                new OffreMobilite(5, partenaires.get(1).getId())
+                new OffreMobilite(1, partenaires.get(0).getIdPartenaire(),5,3,"HE", "bmlanhgjhve","GT2E"),
+                new OffreMobilite(2, partenaires.get(0).getIdPartenaire(),8,4,"HE","hgkiuzgeiuzgu","MIQ"),
+                new OffreMobilite(5, partenaires.get(1).getIdPartenaire(),9,5,"ER","fhoiefoihzi","GM")
         );
         for (var o : offres) {
             o.saveInDB(con);
