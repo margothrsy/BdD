@@ -69,7 +69,7 @@ public class Etudiant {
     private String classe;
     private int annee;
     private int classement;
-    private float score; // Ajout de l'attribut score
+    private int score;
     private int INE;
     private String mdp;
 
@@ -90,7 +90,7 @@ public class Etudiant {
         this.classe = classe;
         this.annee = annee;
         this.classement = classement;
-        this.score = score; // Initialisation du score
+        this.score = score;
         this.INE = INE;
         this.mdp = mdp;
     }
@@ -137,7 +137,7 @@ public class Etudiant {
             insert.setString(3, this.classe);
             insert.setInt(4, this.annee);
             insert.setInt(5, this.classement);
-            insert.setFloat(6, this.score); // Ajout du score
+            insert.setFloat(6, this.score);
             insert.setInt(7, this.INE);
             insert.setString(8, this.mdp);
 
@@ -166,7 +166,7 @@ public class Etudiant {
                 etu.classe = rs.getString(4);
                 etu.annee = rs.getInt(5);
                 etu.classement = rs.getInt(6);
-                etu.score = rs.getFloat(7); // Récupération du score depuis le résultat
+                etu.score = rs.getInt(7); // Récupération du score depuis le résultat
                 etu.INE = rs.getInt(8);
                 etu.mdp = rs.getString(9);
                 res.add(etu);
@@ -177,7 +177,7 @@ public class Etudiant {
 
     public static int creeConsole(Connection con) throws SQLException {
         int idEtudiant = ConsoleFdB.entreeInt("refEtudiant : ");
-        float score = ConsoleFdB.entreeFloat("Score : "); // Demande du score à l'utilisateur
+        int score = ConsoleFdB.entreeInt("Score : "); // Demande du score à l'utilisateur
         Etudiant nouveau = new Etudiant(idEtudiant);
         nouveau.score = score; // Assignation du score
         return nouveau.saveInDB(con);
@@ -203,7 +203,7 @@ public class Etudiant {
     }
 
     // Setter pour le score
-    public void setScore(float score) {
+    public void setScore(int score) {
         this.score = score;
     }
 }
