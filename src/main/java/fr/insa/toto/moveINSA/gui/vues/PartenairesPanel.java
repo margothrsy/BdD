@@ -39,7 +39,7 @@ public class PartenairesPanel extends VerticalLayout {
     public PartenairesPanel() {
         try {
             this.add(new H3("Liste de tous les partenaires"));
-            this.add(new PartenaireGrid(Partenaire.tousLesPartaires(
+            this.add(new PartenaireGrid(Partenaire.tousLesPartenaires(
                     SessionInfo.getOrCreateConnectionToBdD()
             )));
         } catch (SQLException ex) {

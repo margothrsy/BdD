@@ -54,7 +54,6 @@ import java.util.List;
  *
  * @author francois
  */
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class Etudiant {
     }
 
     // Nouveau constructeur pour initialiser le score
-    public Etudiant(int idEtudiant, String nomEtudiant, String prenom, String classe, int annee, int classement, float score, int INE, String mdp) {
+    public Etudiant(int idEtudiant, String nomEtudiant, String prenom, String classe, int annee, int classement, int score, int INE, String mdp) {
         this.idEtudiant = idEtudiant;
         this.nomEtudiant = nomEtudiant;
         this.prenom = prenom;
