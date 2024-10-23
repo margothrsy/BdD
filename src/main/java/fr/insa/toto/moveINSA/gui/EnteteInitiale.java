@@ -29,7 +29,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 public class EnteteInitiale extends HorizontalLayout {
     
     public EnteteInitiale() {
-        this.add(new H3("entête vide pour l'instant"));
+        this.add(new H3("Move INSA"));
     }
     
 }

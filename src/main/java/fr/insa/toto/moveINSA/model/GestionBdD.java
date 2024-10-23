@@ -65,6 +65,39 @@ public class GestionBdD {
                     + " nbrplaces int not null,\n"
                     + " proposepar int not null\n"
                     + ")");
+            st.executeUpdate(
+                    "create table etudiant ( \n"
+                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idEtudiant") + ",\n"
+                    + " idEtudiant int not null unique,\n"
+                    + " nomEtudiant varchar(50) not null\n"
+                    + " prenom varchar(50) not null\n"
+                    + " classe varchar(50) not null\n"
+                    + " annee int not null\n"
+                    + " classement not null\n"
+                    + " INE int not null\n"
+                    + " mdp varchar(50) not null\n"
+                    + ")");
+            st.executeUpdate(
+                    "create table classe ( \n"
+                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idClase") + ",\n"
+                    + " idClasse int not null unique,\n"
+                    + " nom varchar(50) not null\n"
+                    + " effectif int not null,\n"
+                    + ")");
+            st.executeUpdate(
+                    "create table specialite ( \n"
+                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idSpecialite") + ",\n"
+                    + " idSpecialite int not null unique,\n"
+                    + " nomSpecialite varchar(50) not null\n"
+                    + " effectifSpecialite int not null,\n"
+                    + ")");
+             st.executeUpdate(
+                    "create table departement ( \n"
+                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idDepartement") + ",\n"
+                    + " idDepartement int not null unique,\n"
+                    + " nomDepartement varchar(50) not null\n"
+                
+                    + ")");
             // création des liens
             st.executeUpdate(
                     """
@@ -105,6 +138,18 @@ public class GestionBdD {
             }
             try {
                 st.executeUpdate("drop table partenaire");
+            } catch (SQLException ex) {
+            }
+            try {
+                st.executeUpdate("drop table etudiant");
+            } catch (SQLException ex) {
+            }
+             try {
+                st.executeUpdate("drop table classe");
+            } catch (SQLException ex) {
+            }
+              try {
+                st.executeUpdate("drop table specialite");
             } catch (SQLException ex) {
             }
         }
@@ -154,7 +199,7 @@ public class GestionBdD {
             try {
                 int j = 1;
                 if (rep == j++) {
-                    List<Partenaire> users = Partenaire.tousLesPartaires(con);
+                    List<Partenaire> users = Partenaire.tousLesPartenaires(con);
                     System.out.println(users.size() + " utilisateurs : ");
                     System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
                 } else if (rep == j++) {
@@ -190,14 +235,87 @@ public class GestionBdD {
             }
         }
     }
-
+     public static void menuEtudiant(Connection con) {
+        int rep = -1;
+        while (rep != 0) {
+            int i = 1;
+            System.out.println("Menu etudiants");
+            System.out.println("==================");
+            System.out.println((i++) + ") liste de tous les etudiants");
+            System.out.println((i++) + ") créer un nouvel etudiant");
+            System.out.println("0) Retour");
+            rep = ConsoleFdB.entreeEntier("Votre choix : ");
+            try {
+                int j = 1;
+                if (rep == j++) {
+                    List<Etudiant> offres = Etudiant.tousLesEtudiants(con);
+                    System.out.println(offres.size() + " offres : ");
+                    System.out.println(ListUtils.enumerateList(offres, (elem) -> elem.toString()));
+                } else if (rep == j++) {
+                   Etudiant.creeConsole(con);
+                }
+            } catch (Exception ex) {
+                System.out.println(ExceptionsUtils.messageEtPremiersAppelsDansPackage(ex, "fr.insa", 3));
+            }
+        }
+    }
+    
+     public static void menuClasse(Connection con) {
+        int rep = -1;
+        while (rep != 0) {
+            int i = 1;
+            System.out.println("Menu classes");
+            System.out.println("==================");
+            System.out.println((i++) + ") liste de toutes les classes");
+            System.out.println((i++) + ") créer une nouvelle classe");
+            System.out.println("0) Retour");
+            rep = ConsoleFdB.entreeEntier("Votre choix : ");
+            try {
+                int j = 1;
+                if (rep == j++) {
+                    List<Classe> users = Classe.toutesLesClasses(con);
+                    System.out.println(users.size() + " utilisateurs : ");
+                    System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
+                } else if (rep == j++) {
+                    Classe.creeConsole(con);
+                }
+            } catch (Exception ex) {
+                System.out.println(ExceptionsUtils.messageEtPremiersAppelsDansPackage(ex, "fr.insa", 3));
+            }
+        }
+    }
+    
+    public static void menuSpecialite(Connection con) {
+        int rep = -1;
+        while (rep != 0) {
+            int i = 1;
+            System.out.println("Menu specialite");
+            System.out.println("==================");
+            System.out.println((i++) + ") liste de toutes les specialite");
+            System.out.println((i++) + ") créer une nouvelle specialite");
+            System.out.println("0) Retour");
+            rep = ConsoleFdB.entreeEntier("Votre choix : ");
+            try {
+                int j = 1;
+                if (rep == j++) {
+                    List<Specialite> users = Specialite.toutesLesSpecialites(con);
+                    System.out.println(users.size() + " utilisateurs : ");
+                    System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
+                } else if (rep == j++) {
+                    Classe.creeConsole(con);
+                }
+            } catch (Exception ex) {
+                System.out.println(ExceptionsUtils.messageEtPremiersAppelsDansPackage(ex, "fr.insa", 3));
+            }
+        }
+    }
     public static void menuBdD(Connection con) {
         int rep = -1;
         while (rep != 0) {
             int i = 1;
             System.out.println("Menu gestion base de données");
             System.out.println("============================");
-            System.out.println((i++) + ") RAZ BdD = delete + create + init");
+            System.out.println((i++) + ") RAZ BdD = delete + create + initialize");
             System.out.println((i++) + ") donner un ordre SQL update quelconque");
             System.out.println((i++) + ") donner un ordre SQL query quelconque");
             System.out.println("0) Retour");
@@ -243,6 +361,9 @@ public class GestionBdD {
             System.out.println((i++) + ") menu gestion BdD");
             System.out.println((i++) + ") menu partenaires");
             System.out.println((i++) + ") menu offres");
+            System.out.println((i++) + ") menu etudiant");
+            System.out.println((i++) + ") menu classe");
+            System.out.println((i++) + ") menu specialite");
             System.out.println("0) Fin");
             rep = ConsoleFdB.entreeEntier("Votre choix : ");
             try {
