@@ -80,21 +80,20 @@ public class GestionBdD {
                     + " prenom varchar(50) not null,\n"
                     + " classe varchar(50) not null,\n"
                     + " annee int not null,\n"
-                    + " classement not null,\n"
+                    + " classement int not null,\n"
                     + " INE int not null,\n"
                     + " mdp varchar(50) not null\n"
                     + ")");
             st.executeUpdate(
                     "create table classe ( \n"
-                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idClase") + ",\n"
-                    + " idClasse int not null unique,\n"
+                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idClasse") + ",\n"
                     + " nom varchar(50) not null,\n"
                     + " effectif int not null\n"
                     + ")");
+
             st.executeUpdate(
                     "create table specialite ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idSpecialite") + ",\n"
-                    + " idSpecialite int not null unique,\n"
                     + " nomSpecialite varchar(50) not null,\n"
                     + " effectifSpecialite int not null\n"
                     + ")");
@@ -174,8 +173,8 @@ public class GestionBdD {
      **/
     public static void initBdDTest(Connection con) throws SQLException {
         List<Partenaire> partenaires = List.of(
-                new Partenaire("MIT", "Cambridge"," USA"),
-                new Partenaire("Oxford","Oxford","UK")
+            new Partenaire("MIT", "Cambridge", "USA"),
+            new Partenaire("Oxford", "Oxford", "UK")
         );
         for (var p : partenaires) {
             p.saveInDB(con);
@@ -337,7 +336,7 @@ public class GestionBdD {
                     System.out.println(users.size() + " utilisateurs : ");
                     System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
                 } else if (rep == j++) {
-                    Classe.creeConsole(con);
+                    Departement.creeConsole(con);
                 }
             } catch (Exception ex) {
                 System.out.println(ExceptionsUtils.messageEtPremiersAppelsDansPackage(ex, "fr.insa", 3));
