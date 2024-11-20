@@ -73,16 +73,14 @@ public class GestionBdD {
                     + " specialiteAssocie varchar(50) not null\n"
                     + ")");
             st.executeUpdate(
-                    "create table etudiant ( \n"
-                    + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idEtudiant") + ",\n"
-                    + " idEtudiant int not null unique,\n"
-                    + " nomEtudiant varchar(50) not null,\n"
-                    + " prenom varchar(50) not null,\n"
-                    + " classe varchar(50) not null,\n"
-                    + " annee int not null,\n"
-                    + " classement int not null,\n"
-                    + " INE int not null,\n"
-                    + " mdp varchar(50) not null\n"
+                    "CREATE TABLE etudiant ( \n"
+                    + " INE INT PRIMARY KEY, \n"
+                    + " nomEtudiant VARCHAR(50) NOT NULL, \n"
+                    + " prenom VARCHAR(50) NOT NULL, \n"
+                    + " classe VARCHAR(50) NOT NULL, \n"
+                    + " annee INT NOT NULL, \n"
+                    + " classement INT NOT NULL, \n"
+                    + " mdp VARCHAR(50) NOT NULL \n"
                     + ")");
             /*st.executeUpdate(
                     "create table classe ( \n"
