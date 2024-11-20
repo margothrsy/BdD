@@ -171,23 +171,34 @@ public class GestionBdD {
      * @throws SQLException
      **/
     public static void initBdDTest(Connection con) throws SQLException {
-        List<Partenaire> partenaires = List.of(
-            new Partenaire("MIT", "Cambridge", "USA"),
-            new Partenaire("Oxford", "Oxford", "UK")
-        );
-        for (var p : partenaires) {
-            p.saveInDB(con);
-        }
-        List<OffreMobilite> offres = List.of(
-                new OffreMobilite(1, partenaires.get(0).getIdPartenaire(),5,3,"HE", "bmlanhgjhve","GT2E"),
-                new OffreMobilite(2, partenaires.get(0).getIdPartenaire(),8,4,"HE","hgkiuzgeiuzgu","MIQ"),
-                new OffreMobilite(5, partenaires.get(1).getIdPartenaire(),9,5,"ER","fhoiefoihzi","GM")
-        );
-        for (var o : offres) {
-            o.saveInDB(con);
-        }
-
+    // Initialisation des partenaires
+    List<Partenaire> partenaires = List.of(
+        new Partenaire("MIT", "Cambridge", "USA"),
+        new Partenaire("Oxford", "Oxford", "UK")
+    );
+    for (var partenaire : partenaires) {
+        partenaire.saveInDB(con);
     }
+
+    // Initialisation des offres de mobilité
+    List<OffreMobilite> offres = List.of(
+        new OffreMobilite(1, partenaires.get(0).getIdPartenaire(), 5, 3, "HE", "bmlanhgjhve", "GT2E"),
+        new OffreMobilite(2, partenaires.get(0).getIdPartenaire(), 8, 4, "HE", "hgkiuzgeiuzgu", "MIQ"),
+        new OffreMobilite(5, partenaires.get(1).getIdPartenaire(), 9, 5, "ER", "fhoiefoihzi", "GM")
+    );
+    for (var offre : offres) {
+        offre.saveInDB(con);
+    }
+
+    // Initialisation des étudiants
+    List<Etudiant> etudiants = List.of(
+        new Etudiant("362356701RE", "Emilie", "Matieu", "GT2E", 3, 5, "zeiurgozfgiz"),
+        new Etudiant("362356701TT", "Emma", "Martin", "GT2E", 3, 7, "dvhiyavyvyif")
+    );
+    for (var etudiant : etudiants) {
+        etudiant.saveInDB(con);
+    }
+}
 
     public static void razBDD(Connection con) throws SQLException {
         deleteSchema(con);
