@@ -68,7 +68,6 @@ public class Etudiant {
     private String classe;
     private int annee;
     private int classement;
-    private int score;
     private int INE;
     private String mdp;
 
@@ -82,14 +81,13 @@ public class Etudiant {
     }
 
     // Nouveau constructeur pour initialiser le score
-    public Etudiant(int idEtudiant, String nomEtudiant, String prenom, String classe, int annee, int classement, int score, int INE, String mdp) {
+    public Etudiant(int idEtudiant, String nomEtudiant, String prenom, String classe, int annee, int classement, int INE, String mdp) {
         this.idEtudiant = idEtudiant;
         this.nomEtudiant = nomEtudiant;
         this.prenom = prenom;
         this.classe = classe;
         this.annee = annee;
         this.classement = classement;
-        this.score = score;
         this.INE = INE;
         this.mdp = mdp;
     }
@@ -103,7 +101,6 @@ public class Etudiant {
                 ", classe='" + classe + '\'' +
                 ", annee=" + annee +
                 ", classement=" + classement +
-                ", score=" + score + // Ajout du score dans la représentation de chaîne
                 ", INE=" + INE +
                 ", mdp='" + mdp + '\'' +
                 '}';
@@ -127,7 +124,7 @@ public class Etudiant {
         }
 
         try (PreparedStatement insert = con.prepareStatement(
-                "INSERT INTO etudiant (nom, prenom, classe, annee, classement, score, INE, mdp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO etudiant (nom, prenom, classe, annee, classement, INE, mdp) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             // Remplissage des paramètres
@@ -136,9 +133,8 @@ public class Etudiant {
             insert.setString(3, this.classe);
             insert.setInt(4, this.annee);
             insert.setInt(5, this.classement);
-            insert.setFloat(6, this.score);
-            insert.setInt(7, this.INE);
-            insert.setString(8, this.mdp);
+            insert.setInt(6, this.INE);
+            insert.setString(7, this.mdp);
 
             insert.executeUpdate();
 
@@ -155,7 +151,7 @@ public class Etudiant {
 
     public static List<Etudiant> tousLesEtudiants(Connection con) throws SQLException {
         try (PreparedStatement pst = con.prepareStatement(
-                "SELECT id, nom, prenom, classe, annee, classement, score, INE, mdp FROM etudiant")) { // Ajout de score dans la requête
+                "SELECT id, nom, prenom, classe, annee, classement, INE, mdp FROM etudiant")) { // Ajout de score dans la requête
             ResultSet rs = pst.executeQuery();
             List<Etudiant> res = new ArrayList<>();
             while (rs.next()) {
@@ -165,9 +161,8 @@ public class Etudiant {
                 etu.classe = rs.getString(4);
                 etu.annee = rs.getInt(5);
                 etu.classement = rs.getInt(6);
-                etu.score = rs.getInt(7); // Récupération du score depuis le résultat
-                etu.INE = rs.getInt(8);
-                etu.mdp = rs.getString(9);
+                etu.INE = rs.getInt(7);
+                etu.mdp = rs.getString(8);
                 res.add(etu);
             }
             return res;
@@ -178,7 +173,6 @@ public class Etudiant {
         int idEtudiant = ConsoleFdB.entreeInt("refEtudiant : ");
         int score = ConsoleFdB.entreeInt("Score : "); // Demande du score à l'utilisateur
         Etudiant nouveau = new Etudiant(idEtudiant);
-        nouveau.score = score; // Assignation du score
         return nouveau.saveInDB(con);
     }
 
@@ -197,12 +191,12 @@ public class Etudiant {
     }
 
     // Getter pour le score
-    public float getScore() {
+    /*public float getScore() {
         return score;
     }
 
     // Setter pour le score
     public void setScore(int score) {
         this.score = score;
-    }
+    }*/
 }
