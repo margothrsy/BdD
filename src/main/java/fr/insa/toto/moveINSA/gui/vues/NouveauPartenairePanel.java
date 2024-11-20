@@ -44,7 +44,7 @@ public class NouveauPartenairePanel extends VerticalLayout{
     
     public NouveauPartenairePanel() {
         this.add(new H3("Creation d'un nouveau partenaire"));
-        this.nouveau = new Partenaire("");
+        this.nouveau = new Partenaire("", null, null);
         this.fPartenaire = new PartenaireForm(this.nouveau, true);
         this.bSave = new Button("Sauvegarder", (t) -> {
             try {
