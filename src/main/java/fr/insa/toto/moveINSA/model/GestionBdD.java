@@ -68,9 +68,9 @@ public class GestionBdD {
                     + " proposePar int not null,\n"
                     + " semestre int not null,\n"
                     + " niveauScolaire int not null,\n"
-                    + " dispositif varchar(2) not null unique,\n"
-                    + " nomOffre varchar(100) not null unique,\n"
-                    + " specialiteAssocie varchar(50) not null unique\n"
+                    + " dispositif varchar(2) not null,\n"
+                    + " nomOffre varchar(100) not null,\n"
+                    + " specialiteAssocie varchar(50) not null\n"
                     + ")");
             st.executeUpdate(
                     "create table etudiant ( \n"
