@@ -84,7 +84,7 @@ public class GestionBdD {
                     + " INE int not null,\n"
                     + " mdp varchar(50) not null\n"
                     + ")");
-            st.executeUpdate(
+            /*st.executeUpdate(
                     "create table classe ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idClasse") + ",\n"
                     + " nom varchar(50) not null,\n"
@@ -103,8 +103,9 @@ public class GestionBdD {
                     + " idDepartement int not null unique,\n"
                     + " nomDepartement varchar(50) not null\n"
                 
-                    + ")");
+                    + ")");*/
             // création des liens
+            //hcvzaidvzcv   bkjbzkcbkabkj
             st.executeUpdate(
                     """
                     alter table offremobilite
@@ -150,7 +151,7 @@ public class GestionBdD {
                 st.executeUpdate("drop table etudiant");
             } catch (SQLException ex) {
             }
-             try {
+             /*try {
                 st.executeUpdate("drop table classe");
             } catch (SQLException ex) {
             }
@@ -161,7 +162,7 @@ public class GestionBdD {
               try {
                 st.executeUpdate("drop table departement");
             } catch (SQLException ex) {
-            }
+            }*/
         }
     }
 
