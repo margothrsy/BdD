@@ -73,7 +73,7 @@ public class GestionBdD {
                     + " specialiteAssocie varchar(50) not null\n"
                     + ")");
             st.executeUpdate(
-                    "CREATE TABLE etudiant ( \n"
+                    "create table etudiant ( \n"
                     + " INE INT PRIMARY KEY, \n"
                     + " nomEtudiant VARCHAR(50) NOT NULL, \n"
                     + " prenom VARCHAR(50) NOT NULL, \n"
@@ -82,14 +82,17 @@ public class GestionBdD {
                     + " classement INT NOT NULL, \n"
                     + " mdp VARCHAR(50) NOT NULL \n"
                     + ")");
-            /*st.executeUpdate(
+            
+            st.executeUpdate(
                     "create table classe ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idClasse") + ",\n"
                     + " nom varchar(50) not null,\n"
-                    + " effectif int not null\n"
+                    + " effectif int not null,\n"
+                    + " specialite varchar(50) not null, \n"
+                    + " annee int not null \n"
                     + ")");
 
-            st.executeUpdate(
+            /*st.executeUpdate(
                     "create table specialite ( \n"
                     + ConnectionSimpleSGBD.sqlForGeneratedKeys(con, "idSpecialite") + ",\n"
                     + " nomSpecialite varchar(50) not null,\n"
@@ -149,11 +152,11 @@ public class GestionBdD {
                 st.executeUpdate("drop table etudiant");
             } catch (SQLException ex) {
             }
-             /*try {
+             try {
                 st.executeUpdate("drop table classe");
             } catch (SQLException ex) {
             }
-              try {
+            /*  try {
                 st.executeUpdate("drop table specialite");
             } catch (SQLException ex) {
             }
@@ -174,7 +177,8 @@ public class GestionBdD {
     // Initialisation des partenaires
     List<Partenaire> partenaires = List.of(
         new Partenaire("MIT", "Cambridge", "USA"),
-        new Partenaire("Oxford", "Oxford", "UK")
+        new Partenaire("Oxford", "Oxford", "UK"),
+        new Partenaire ("Laval University","Laval", "Canada")
     );
     for (var partenaire : partenaires) {
         partenaire.saveInDB(con);
@@ -182,7 +186,7 @@ public class GestionBdD {
 
     // Initialisation des offres de mobilité
     List<OffreMobilite> offres = List.of(
-        new OffreMobilite(1, partenaires.get(0).getIdPartenaire(), 5, 3, "HE", "bmlanhgjhve", "GT2E"),
+        new OffreMobilite(1, partenaires.get(0).getIdPartenaire(), 5, 3, "HE", "bravejoe", "GT2E"),
         new OffreMobilite(2, partenaires.get(0).getIdPartenaire(), 8, 4, "HE", "hgkiuzgeiuzgu", "MIQ"),
         new OffreMobilite(5, partenaires.get(1).getIdPartenaire(), 9, 5, "ER", "fhoiefoihzi", "GM")
     );
@@ -190,13 +194,23 @@ public class GestionBdD {
         offre.saveInDB(con);
     }
 
-    // Initialisation des étudiants
+    // Initialisation des etudiants
     List<Etudiant> etudiants = List.of(
         new Etudiant("362356701RE", "Emilie", "Matieu", "GT2E", 3, 5, "zeiurgozfgiz"),
         new Etudiant("362356701TT", "Emma", "Martin", "GT2E", 3, 7, "dvhiyavyvyif")
     );
     for (var etudiant : etudiants) {
         etudiant.saveInDB(con);
+    }
+    
+    // Initialisation des classes
+    List<Classe> classes = List.of(
+        new Classe(1, "GT2E2", 21 , "GT2E", 2),
+        new Classe(2, "MIQ2", 16 , "MIQ", 2),
+        new Classe(3, "GE5", 32 , "GE", 5)
+    );
+    for (var classe : classes) {
+        classe.saveInDB(con);
     }
 }
 
@@ -268,9 +282,9 @@ public class GestionBdD {
             try {
                 int j = 1;
                 if (rep == j++) {
-                    List<Etudiant> offres = Etudiant.tousLesEtudiants(con);
-                    System.out.println(offres.size() + " offres : ");
-                    System.out.println(ListUtils.enumerateList(offres, (elem) -> elem.toString()));
+                    List<Etudiant> etudiants = Etudiant.tousLesEtudiants(con);
+                    System.out.println(etudiants.size() + " etudiants : ");
+                    System.out.println(ListUtils.enumerateList(etudiants, (elem) -> elem.toString()));
                 } else if (rep == j++) {
                    Etudiant.creeConsole(con);
                 }
@@ -293,9 +307,9 @@ public class GestionBdD {
             try {
                 int j = 1;
                 if (rep == j++) {
-                    List<Classe> users = Classe.toutesLesClasses(con);
-                    System.out.println(users.size() + " utilisateurs : ");
-                    System.out.println(ListUtils.enumerateList(users, (elem) -> elem.toString()));
+                    List<Classe> classes = Classe.toutesLesClasses(con);
+                    System.out.println(classes.size() + " classes : ");
+                    System.out.println(ListUtils.enumerateList(classes, (elem) -> elem.toString()));
                 } else if (rep == j++) {
                     Classe.creeConsole(con);
                 }

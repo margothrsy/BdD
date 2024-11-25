@@ -96,6 +96,7 @@ public class Etudiant {
     /**
      * Calcule un score basé sur le classement et l'effectif de la classe.
      *
+     * @param con
      * @param effectif Effectif total de la classe
      * @return Score de l'étudiant
      * @throws IllegalStateException Si l'étudiant n'est associé à aucune classe
@@ -172,6 +173,9 @@ public class Etudiant {
 
     /**
      * Retourne tous les étudiants de la base de données.
+     * @param con
+     * @return 
+     * @throws java.sql.SQLException
      */
     public static List<Etudiant> tousLesEtudiants(Connection con) throws SQLException {
         try (PreparedStatement pst = con.prepareStatement(
@@ -179,7 +183,7 @@ public class Etudiant {
             ResultSet rs = pst.executeQuery();
             List<Etudiant> res = new ArrayList<>();
             while (rs.next()) {
-                Etudiant etu = new Etudiant(
+                res.add(new Etudiant(
                         rs.getString("INE"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
@@ -187,8 +191,7 @@ public class Etudiant {
                         rs.getInt("annee"),
                         rs.getInt("classement"),
                         rs.getString("mdp")
-                );
-                res.add(etu);
+                 ));
             }
             return res;
         }

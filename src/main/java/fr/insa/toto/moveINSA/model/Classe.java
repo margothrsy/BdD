@@ -18,7 +18,6 @@ along with CoursBeuvron.  If not, see <http://www.gnu.org/licenses/>.
  */
 package fr.insa.toto.moveINSA.model;
 import fr.insa.beuvron.utils.ConsoleFdB;
-import fr.insa.beuvron.utils.list.ListUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,6 +41,15 @@ public class Classe {
      */
     public Classe(int idClasse) {
         this.idClasse = idClasse;
+    }
+    
+    public Classe(int idClasse, String nomClasse, int effectifClasse, String specialite, int annee) {
+        this.idClasse = idClasse;
+        this.nomClasse = nomClasse;
+        this.effectifClasse = effectifClasse;
+        this.specialite = specialite;
+        this.annee = annee;
+        
     }
 
     @Override
@@ -96,19 +104,23 @@ public class Classe {
 
     /**
      * Retourne toutes les classes enregistrées dans la base de données.
+     * @param con
+     * @return 
+     * @throws java.sql.SQLException
      */
     public static List<Classe> toutesLesClasses(Connection con) throws SQLException {
         try (PreparedStatement pst = con.prepareStatement(
-                "SELECT idClasse, nomClasse, effectifClasse, specialite, annee FROM Classe")) {
+                "SELECT idClasse, nomClasse, effectifClasse, specialite, annee FROM classe")) {
             ResultSet rs = pst.executeQuery();
             List<Classe> res = new ArrayList<>();
             while (rs.next()) {
-                Classe classe = new Classe(rs.getInt(1));
-                classe.nomClasse = rs.getString(2);
-                classe.effectifClasse = rs.getInt(3);  // Utilisation de effectifClasse
-                classe.specialite = rs.getString(4);
-                classe.annee = rs.getInt(5);
-                res.add(classe);
+                res.add(new Classe(
+                        rs.getInt("idclasse"), 
+                        rs.getString("nomClasse"), 
+                        rs.getInt("effectifClasse"), 
+                        rs.getString("specialite"), 
+                        rs.getInt("annee")
+                ));
             }
             return res;
         }
