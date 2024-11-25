@@ -156,4 +156,24 @@ public class Classe {
     public void setEffectifClasse(int effectifClasse) {  // Méthode de setter pour effectifClasse
         this.effectifClasse = effectifClasse;
     }
+    
+    public static Classe recupererParNomClasse(Connection con, String nomClasse) throws SQLException {
+    String requete = "SELECT idClasse, nomClasse, effectifClasse, specialite, annee FROM Classe WHERE nomClasse = ?";
+    try (PreparedStatement pst = con.prepareStatement(requete)) {
+        pst.setString(1, nomClasse);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                Classe classe = new Classe(rs.getInt("idClasse"));
+                classe.nomClasse = rs.getString("nomClasse");
+                classe.effectifClasse = rs.getInt("effectifClasse");
+                classe.specialite = rs.getString("specialite");
+                classe.annee = rs.getInt("annee");
+                return classe;
+            } else {
+                return null; // Aucune classe trouvée pour ce nom
+            }
+        }
+    }
+    }
 }
+
