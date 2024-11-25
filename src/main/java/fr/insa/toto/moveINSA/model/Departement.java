@@ -63,7 +63,7 @@ public class Departement {
      * @throws EntiteDejaSauvegardee si l'id de l'entité est différent de -1
      * @throws SQLException si un autre problème survient avec la BdD
      */
-    public int saveInDB(Connection con) throws SQLException {
+    public int saveInDB(Connection con) throws SQLException, EntiteDejaSauvegardee {
         if (this.getIdDepartement() != -1) {
             throw new fr.insa.toto.moveINSA.model.EntiteDejaSauvegardee();
         }
