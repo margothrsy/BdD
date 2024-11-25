@@ -39,11 +39,20 @@ public class Etudiant {
         this.INE = INE;
     }
 
- public int getClassement() {
+    public int getClassement() {
         return classement;
     }
-  public double score() {
-        return 1.0 / getClassement();
+    
+    public string getEtudiant.getClasse() 
+        return classe;
+    }
+        
+    }
+    public double score() {
+        if (classe == null) {
+            throw new IllegalStateException("L'étudiant n'est associé à aucune classe.");
+        }
+        return (double)etudiant.getclassement / effectif;
     }
 
     /**
@@ -146,6 +155,9 @@ public class Etudiant {
 
         Etudiant nouveau = new Etudiant(null, nom, prenom, classe, annee, classement, mdp);
         return nouveau.saveInDB(con);
+    }
+ public int getclasement() {
+        return classement;
     }
 
     public void setINE(String INE) {
