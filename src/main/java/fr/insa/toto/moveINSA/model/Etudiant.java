@@ -43,16 +43,16 @@ public class Etudiant {
         return classement;
     }
     
-    
+    public string getEtudiant.getClasse() 
+        return classe;
+    }
+        
+    }
     public double score() {
         if (classe == null) {
             throw new IllegalStateException("L'étudiant n'est associé à aucune classe.");
         }
-        int effectif = classe.getEffectifClasse();
-        if (effectif <= 0) {
-            throw new IllegalStateException("L'effectif de la classe doit être strictement positif.");
-        }
-        return (double) classement / effectif;
+        return (double)etudiant.getclassement / effectif;
     }
 
     /**
@@ -155,6 +155,9 @@ public class Etudiant {
 
         Etudiant nouveau = new Etudiant(null, nom, prenom, classe, annee, classement, mdp);
         return nouveau.saveInDB(con);
+    }
+ public int getclasement() {
+        return classement;
     }
 
     public void setINE(String INE) {
