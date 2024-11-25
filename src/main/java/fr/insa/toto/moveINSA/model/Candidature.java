@@ -150,24 +150,36 @@ public class Candidature {
     public static int creeConsole(Connection con) throws SQLException {
     // Sélectionne l'étudiant via la console
     int idEtudiant = ConsoleFdB.entreeInt("ID de l'étudiant : ");
-    
+
     // Vérifier le nombre de candidatures existantes pour cet étudiant
     int nombreCandidatures = Candidature.nombreCandidaturesEtudiant(con, idEtudiant);
     if (nombreCandidatures >= 5) {
         System.out.println("Cet étudiant a déjà soumis 5 candidatures. Impossible d'en soumettre davantage.");
         return -1; // Indiquer qu'il n'est pas possible de créer une nouvelle candidature
     }
-    
+
+    // Vérifier que l'ordre de préférence est entre 1 et 5
+    int ordre = ConsoleFdB.entreeInt("Ordre de préférence (entre 1 et 5) : ");
+    while (ordre < 1 || ordre > 5) {
+        System.out.println("L'ordre de préférence doit être compris entre 1 et 5.");
+        ordre = ConsoleFdB.entreeInt("Ordre de préférence (entre 1 et 5) : ");
+    }
+
+    // Vérifier si cet ordre est déjà utilisé pour cet étudiant
+    if (Candidature.existeOrdrePourEtudiant(con, idEtudiant, ordre)) {
+        System.out.println("Cet ordre de préférence est déjà utilisé pour une autre candidature.");
+        return -1; // Indiquer qu'il n'est pas possible d'utiliser cet ordre
+    }
+
     // Sélectionne une offre de mobilité via la console
     int idOffre = ConsoleFdB.entreeInt("ID de l'offre de mobilité : ");
-    int ordre = ConsoleFdB.entreeInt("Ordre de préférence : ");
     int classement = ConsoleFdB.entreeInt("Classement de l'étudiant : ");
     String date = ConsoleFdB.entreeString("Date de la candidature (YYYY-MM-DD) : ");
 
     // Crée une nouvelle candidature avec un ID temporaire de -1
     Candidature nouvelle = new Candidature(-1, idOffre, idEtudiant, ordre, classement, date);
     return nouvelle.saveInDB(con);
-    }
+}
 
 
     // Getters et setters
@@ -195,4 +207,25 @@ public class Candidature {
     public String getDate() {
         return date;
     }
+    
+    public static boolean existeOrdrePourEtudiant(Connection con, int idEtudiant, int ordre) throws SQLException {
+    // Prépare une requête SQL pour vérifier si un ordre spécifique existe pour un étudiant donné
+    String query = "SELECT COUNT(*) FROM Candidature WHERE idEtudiant = ? AND ordre = ?";
+    
+    try (PreparedStatement stmt = con.prepareStatement(query)) {
+        // Associe les paramètres à la requête
+        stmt.setInt(1, idEtudiant);
+        stmt.setInt(2, ordre);
+
+        // Exécute la requête et analyse le résultat
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Retourne true si une correspondance existe
+            }
+        }
+    }
+    // Si aucune correspondance n'est trouvée, retourne false
+    return false;
+}
+
 }
