@@ -52,7 +52,7 @@ public class Attribution {
     }
 
     // Méthode pour sauvegarder l'attribution dans la base de données
-    public int saveInDB(Connection con) throws SQLException {
+    public int saveInDB(Connection con) throws SQLException, EntiteDejaSauvegardee {
         if (this.getIdAttribution() != -1) {
             throw new EntiteDejaSauvegardee();
         }
