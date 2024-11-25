@@ -10,13 +10,9 @@ import java.util.List;
 
 /**
  * Classe "miroir" de la table Etudiant.
- * <p>
  * Pour interfacer facilement un programme Java avec une base de données relationnelle,
  * il est souvent pratique de définir des classes correspondant aux tables d'entités.
- * </p>
- * <p>
  * Nous éviterons l'utilisation d'un ORM pour rester dans l'esprit pédagogique.
- * </p>
  *
  * @author francois
  */
@@ -39,22 +35,6 @@ public class Etudiant {
         this.INE = INE;
     }
 
-    public int getClassement() {
-        return classement;
-    }
-    
-    public string getEtudiant.getClasse() 
-        return classe;
-    }
-        
-    }
-    public double score() {
-        if (classe == null) {
-            throw new IllegalStateException("L'étudiant n'est associé à aucune classe.");
-        }
-        return (double)etudiant.getclassement / effectif;
-    }
-
     /**
      * Constructeur complet.
      */
@@ -67,6 +47,78 @@ public class Etudiant {
         this.classement = classement;
         this.mdp = mdp;
     }
+
+    // Getters et setters
+    public String getINE() {
+        return INE;
+    }
+
+    public void setINE(String INE) {
+        this.INE = INE;
+    }
+
+    public String getNomEtudiant() {
+        return nomEtudiant;
+    }
+
+    
+    public String getPrenom() {
+        return prenom;
+    }
+
+    
+
+    public String getClasse() {
+        return classe;
+    }
+
+    
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    
+    public int getClassement() {
+        return classement;
+    }
+
+    
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+
+    /**
+     * Calcule un score basé sur le classement et l'effectif de la classe.
+     *
+     * @param effectif Effectif total de la classe
+     * @return Score de l'étudiant
+     * @throws IllegalStateException Si l'étudiant n'est associé à aucune classe
+     */
+   public double score(Connection con) {
+    if (classe == null) {
+        throw new IllegalStateException("La classe n'est pas définie.");
+    }
+
+    try {
+        // Récupère l'objet Classe à partir du nom de la classe
+        Classe classeObjet = Classe.recupererParNomClasse(con, classe);
+        if (classeObjet == null || classeObjet.getEffectifClasse() <= 0) {
+            throw new IllegalStateException("Classe introuvable ou effectif invalide.");
+        }
+
+        // Calcul du score
+        return (double) classement / classeObjet.getEffectifClasse();
+    } catch (SQLException e) {
+        throw new IllegalStateException("Erreur lors de la récupération de la classe.", e);
+    }
+}
+
 
     @Override
     public String toString() {
@@ -91,7 +143,7 @@ public class Etudiant {
      */
     public String saveInDB(Connection con) throws SQLException, EntiteDejaSauvegardee {
         if (this.INE != null) {
-            throw new EntiteDejaSauvegardee(); // Exception si l'INE existe déjà
+            throw new EntiteDejaSauvegardee();
         }
 
         try (PreparedStatement insert = con.prepareStatement(
@@ -100,7 +152,7 @@ public class Etudiant {
 
             insert.setString(1, this.nomEtudiant);
             insert.setString(2, this.prenom);
-            insert.setString(3, this.classe);
+            insert.setClasse(3, this.classe);
             insert.setInt(4, this.annee);
             insert.setInt(5, this.classement);
             insert.setString(6, this.mdp);
@@ -156,24 +208,6 @@ public class Etudiant {
         Etudiant nouveau = new Etudiant(null, nom, prenom, classe, annee, classement, mdp);
         return nouveau.saveInDB(con);
     }
- public int getclasement() {
-        return classement;
-    }
-
-    public void setINE(String INE) {
-        this.INE = INE;
-    }
-
-    public String getINE() {
-        return INE;
-    }
 }
 
-/**
- * Exception levée lorsqu'une entité est déjà sauvegardée.
- */
-class EntiteDejaSauvegardee extends Exception {
-    public EntiteDejaSauvegardee() {
-        super("L'entité est déjà sauvegardée dans la base de données.");
-    }
-}
+
