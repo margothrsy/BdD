@@ -37,7 +37,7 @@ public class Specialite {
 
     private int idSpecialite;
     private String nomSpecialite;
-    private String specialite; // Ajout de l'attribut 'specialite' manquant
+    private String offreSpecialite; // Ajout de l'attribut 'specialite' manquant
 
     /**
      * Création d'une Classe retrouvée dans la base de données.
@@ -51,7 +51,7 @@ public class Specialite {
         return "Specialite{" +
                 "IdSpecialite=" + this.getIdSpecialite() +
                 " ; NomSpecialite=" + this.nomSpecialite +
-                " ; Specialite=" + this.specialite + // Ajout du '+' pour la concaténation
+                " ; Specialite=" + this.offreSpecialite + // Ajout du '+' pour la concaténation
                 '}';
     }
 
@@ -77,7 +77,7 @@ public class Specialite {
                 PreparedStatement.RETURN_GENERATED_KEYS)) { // Correction du nom de la table
 
             insert.setString(1, this.nomSpecialite);
-            insert.setString(2, this.specialite); // Correction de l'index et de la variable
+            insert.setString(2, this.offreSpecialite); // Correction de l'index et de la variable
 
             insert.executeUpdate();
 
@@ -103,7 +103,7 @@ public class Specialite {
             while (rs.next()) {
                 Specialite specialite = new Specialite(rs.getInt(1)); // Utilisation de Specialite
                 specialite.nomSpecialite = rs.getString(2);
-                specialite.specialite = rs.getString(3); // Ajout de l'attribut 'specialite'
+                specialite.offreSpecialite = rs.getString(3); // Ajout de l'attribut 'specialite'
                 res.add(specialite); // Correction de la variable à ajouter
             }
             return res;
@@ -119,7 +119,7 @@ public class Specialite {
         
         Specialite nouveau = new Specialite(-1); // Utilisation de Specialite avec un ID par défaut
         nouveau.nomSpecialite = nomSpecialite;
-        nouveau.specialite = specialite; // Assignation à l'attribut
+        nouveau.offreSpecialite = specialite; // Assignation à l'attribut
 
         return nouveau.saveInDB(con);
     }
@@ -137,6 +137,6 @@ public class Specialite {
     }
 
     public String getSpecialite() {
-        return specialite;
+        return offreSpecialite;
     }
 }
