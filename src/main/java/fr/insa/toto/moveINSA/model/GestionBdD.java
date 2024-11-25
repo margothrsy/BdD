@@ -434,6 +434,17 @@ public class GestionBdD {
         }
     }
 
+    public static boolean EntiteDejaSauvegardee(Connection con, String tableName, String columnName, Object value) 
+        throws SQLException {
+    String query = "SELECT 1 FROM " + tableName + " WHERE " + columnName + " = ?";
+    try (PreparedStatement pst = con.prepareStatement(query)) {
+        pst.setObject(1, value);
+        try (ResultSet rst = pst.executeQuery()) {
+            // Si un enregistrement est trouvé, l'entité existe déjà
+            return rst.next();
+        }
+    }
+}
     public static void main(String[] args) {
         menuPrincipal();
     }
