@@ -152,7 +152,7 @@ public class Etudiant {
 
             insert.setString(1, this.nomEtudiant);
             insert.setString(2, this.prenom);
-            insert.setClasse(3, this.classe);
+            insert.setString(3, this.classe);
             insert.setInt(4, this.annee);
             insert.setInt(5, this.classement);
             insert.setString(6, this.mdp);
