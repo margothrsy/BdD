@@ -39,11 +39,20 @@ public class Etudiant {
         this.INE = INE;
     }
 
- public int getClassement() {
+    public int getClassement() {
         return classement;
     }
-  public double score() {
-        return 1.0 / getClassement();
+    
+    
+    public double score() {
+        if (classe == null) {
+            throw new IllegalStateException("L'étudiant n'est associé à aucune classe.");
+        }
+        int effectif = classe.getEffectifClasse();
+        if (effectif <= 0) {
+            throw new IllegalStateException("L'effectif de la classe doit être strictement positif.");
+        }
+        return (double) classement / effectif;
     }
 
     /**
