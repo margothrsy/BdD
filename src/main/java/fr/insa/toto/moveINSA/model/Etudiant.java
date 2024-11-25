@@ -39,6 +39,13 @@ public class Etudiant {
         this.INE = INE;
     }
 
+ public int getClassement() {
+        return classement;
+    }
+  public double score() {
+        return 1.0 / getClassement();
+    }
+
     /**
      * Constructeur complet.
      */
