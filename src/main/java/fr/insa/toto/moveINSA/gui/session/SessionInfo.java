@@ -102,7 +102,7 @@ public class SessionInfo implements Serializable {
 
     public static void doLogin(Partenaire p) {
         SessionInfo cur = getOrCreateCurSessionInfo();
-        cur.loggedPart = p.getId();
+        cur.loggedPart = p.getIdPartenaire();
         cur.partRef = p.getRefPartenaire();
     }
 
