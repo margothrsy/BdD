@@ -19,8 +19,12 @@ along with CoursBeuvron.  If not, see <http://www.gnu.org/licenses/>.
 package fr.insa.toto.moveINSA.gui;
 
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
+import fr.insa.toto.moveINSA.gui.MenuGauche;
 
 /**
  * Utilisé par toutes les pages comme layout.
@@ -38,8 +42,20 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
     public MainLayout() {
 //        System.out.println("MainLayout constructeur "+this);
         this.menuGauche = new MenuGauche();
+        this.menuGauche.setHeightFull();
+//        Scroller scroller = new Scroller(this.menuGauche);
+//        scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
+//        scroller.setHeightFull();
+//        VerticalLayout pourScroll = new VerticalLayout(this.menuGauche);
+//        pourScroll.setHeightFull();
+//        pourScroll.getStyle().set("display", "block");
+//        Scroller scroller = new Scroller(pourScroll);
+//        scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
+//        scroller.setHeightFull();
         this.addToDrawer(this.menuGauche);
-        this.addToNavbar(new EnteteInitiale());
+        DrawerToggle toggle = new DrawerToggle();
+        this.addToNavbar(toggle,new EnteteInitiale());
+//        this.addToNavbar(new EnteteInitiale());
     }
 
     /**

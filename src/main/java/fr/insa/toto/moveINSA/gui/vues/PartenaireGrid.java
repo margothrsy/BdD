@@ -19,6 +19,10 @@ along with CoursBeuvron.  If not, see <http://www.gnu.org/licenses/>.
 package fr.insa.toto.moveINSA.gui.vues;
 
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import fr.insa.toto.moveINSA.model.Partenaire;
 import java.util.List;
 

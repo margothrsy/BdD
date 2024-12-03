@@ -22,10 +22,12 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import fr.insa.beuvron.vaadin.utils.ConnectionPool;
 import fr.insa.toto.moveINSA.gui.MainLayout;
 import fr.insa.toto.moveINSA.gui.session.SessionInfo;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.SQLException;
@@ -38,11 +40,11 @@ import java.sql.SQLException;
 public class TestDriverPanel extends VerticalLayout {
 
     public TestDriverPanel() {
-        this.add(new H3("test du driver mysql"));
-        try {
+        this.add(new H3("test du driver"));
+        try (Connection con = ConnectionPool.getConnection()){
             Class<Driver> mysqlDriver = (Class<Driver>) Class.forName("com.mysql.cj.jdbc.Driver");
             this.add(new Paragraph("com.mysql.cj.jdbc.Driver OK"));
-            DatabaseMetaData meta = SessionInfo.getOrCreateConnectionToBdD().getMetaData();
+            DatabaseMetaData meta = con.getMetaData();
             this.add(new Paragraph("jdbc driver de la connection : " + meta.getDriverName() + " ; " + meta.getDriverVersion()));
         } catch (ClassNotFoundException ex) {
             this.add(new Paragraph("com.mysql.cj.jdbc.Driver not found"));

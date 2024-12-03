@@ -24,9 +24,11 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import fr.insa.beuvron.vaadin.utils.ConnectionPool;
 import fr.insa.toto.moveINSA.gui.MainLayout;
 import fr.insa.toto.moveINSA.gui.session.SessionInfo;
 import fr.insa.toto.moveINSA.model.Partenaire;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -44,12 +46,12 @@ public class NouveauPartenairePanel extends VerticalLayout{
     
     public NouveauPartenairePanel() {
         this.add(new H3("Creation d'un nouveau partenaire"));
-        this.nouveau = new Partenaire("", null, null);
+        this.nouveau = new Partenaire("");
         this.fPartenaire = new PartenaireForm(this.nouveau, true);
         this.bSave = new Button("Sauvegarder", (t) -> {
-            try {
+            try (Connection con = ConnectionPool.getConnection()) {
                 this.fPartenaire.updateModel();
-                this.nouveau.saveInDB(SessionInfo.getOrCreateConnectionToBdD());
+                 this.nouveau.saveInDB(con);
             } catch (SQLException ex) {
                 System.out.println("Probleme : " + ex.getLocalizedMessage());
                 Notification.show("Probleme : " + ex.getLocalizedMessage());

@@ -35,35 +35,15 @@ public class ServiceListener implements VaadinServiceInitListener {
     @Override
     public void serviceInit(ServiceInitEvent event) {
 
-        // on ne cré pas automatiquement la connection à la BdD à l'ouverture
-        // de la session : parfois certaines sessions inutiles sont crées
-        // La connection sera crée la première fois que l'on veut y acceder
-        // grace à la méthode getOrCreateConnectionToBdD de SessionInfo
-//        event.getSource().addSessionInitListener(
-//                initEvent -> {
-//                    try {
-//                        System.out.println("connecting to BDD for session " + initEvent.getSession());
-//                        SessionInfo.connectToBDD(initEvent.getSession());
-//                    } catch (ClassNotFoundException | SQLException ex) {
-//                        throw new Error(ex);
-//                    }
-//                });
-
-        // par contre on ferme automatiquement la connection à la fermeture de
-        // la session. C'est dans closeConnectionToBDD que l'on vérifie que
-        // la connection existe bien avant de la supprimer
-        // normalement, vaadin va recréer automatiquement une nouvelle session
-        // la prochaine demande d'une connection sur cette nouvelle session
-        // créera une nouvelle connection à la BdD
-        event.getSource().addSessionDestroyListener(
-                destroyEvent -> {
-                    try {
-//                        System.out.println("closing connection to BDD for session " + destroyEvent.getSession());
-                        SessionInfo.closeConnectionToBDD(destroyEvent.getSession());
-                    } catch (SQLException ex) {
-                        throw new Error(ex);
-                    }
+        // on ne fait rien à la création de la session
+        event.getSource().addSessionInitListener(
+                initEvent -> {
                 });
+
+        // on ne fait rien non plus à la fermeture d'une session : 
+        // dorénavent, les connexions à la BdD sont gérée par une fr.insa.beuvron.vaadin.utils.ConnectionPool
+        event.getSource().addSessionDestroyListener(
+                destroyEvent -> {});
 
     }
 }

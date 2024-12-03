@@ -18,34 +18,33 @@ along with CoursBeuvron.  If not, see <http://www.gnu.org/licenses/>.
  */
 package fr.insa.toto.moveINSA.gui.vues;
 
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import fr.insa.beuvron.vaadin.utils.ConnectionPool;
-import fr.insa.toto.moveINSA.gui.MainLayout;
-import fr.insa.toto.moveINSA.gui.session.SessionInfo;
 import fr.insa.toto.moveINSA.model.Partenaire;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+import static javax.management.Query.value;
 
 /**
  *
  * @author francois
  */
-@PageTitle("MoveINSA")
-@Route(value = "partenaires/liste", layout = MainLayout.class)
-public class PartenairesPanel extends VerticalLayout {
-    
-    public PartenairesPanel() {
+public class ChoixPartenaireCombo extends ComboBox<Partenaire> {
+
+    public ChoixPartenaireCombo() {
+        super("Partenaire");
         try (Connection con = ConnectionPool.getConnection()) {
-            this.add(new H3("Liste de tous les partenaires"));
-            this.add(new PartenaireGrid(Partenaire.tousLesPartaires(con)));
+            List<Partenaire> tous = Partenaire.tousLesPartaires(con);
+            this.setItems(tous);
+            this.setItemLabelGenerator(Partenaire::getRefPartenaire);
+            if (!tous.isEmpty()) {
+                this.setValue(tous.getFirst());
+            }
         } catch (SQLException ex) {
-            System.out.println("Probleme : " + ex.getLocalizedMessage());
-            Notification.show("Probleme : " + ex.getLocalizedMessage());
+            Notification.show("Probleme interne : " + ex.getLocalizedMessage());
         }
     }
-    
+
 }
